@@ -77,7 +77,7 @@ const Home = () => {
             </Col>
             <Col>
               <Figure className="custom-figure-self" width={100} height={100}>
-                <Figure.Image src={data.fields.media[5].thumbnails.large.url} thumbnail/>
+                <Figure.Image src={data.fields.media[5].thumbnails.large.url} alt="Nicholas Santiago" thumbnail/>
               </Figure>
             </Col>
           </Row>

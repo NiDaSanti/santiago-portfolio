@@ -6,7 +6,7 @@ function App() {
   return (
     <ThemeProvider
       breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
-      minBreakpoint="xxs"
+      minBreakpoint="xxl"
     >
       <div className="App">
         <Home/>
