@@ -1,1 +1,1 @@
-web: npm run your-start-script
+web: npm serve -s build
