@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Badge,} from 'react-bootstrap/Badge'
+import {Badge, Placeholder} from 'react-bootstrap/'
 import Figure from 'react-bootstrap/Figure'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
