@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from 'react'
-import {Badge, Placeholder} from 'react-bootstrap/'
-import Figure from 'react-bootstrap/Figure'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Spinner from 'react-bootstrap/Spinner'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Stack from 'react-bootstrap/Stack'
+import {
+  Figure,
+  Card, 
+  Button, 
+  Container, 
+  Spinner, 
+  Row, 
+  Col, 
+  Stack, 
+  Placeholder, 
+  Alert
+} from 'react-bootstrap/'
 import resumeFile from '../../resources/santiago-nicholas-technical.pdf'
 import './home.css'
 
@@ -62,7 +65,7 @@ const Home = () => {
   return(
     <>
       {!loading ? 
-      (<Spinner animation="grow" variant="warning"/>) : 
+      (<Spinner className="main-load" animation="grow" variant="info" size="lg"/>) : 
       (<Stack>
         <Container fluid className="bg-dark text-light p-3">
           <Row className="custom-flex-row"> 
@@ -71,6 +74,9 @@ const Home = () => {
                 <h1>{data.fields.content}</h1>
                 <h2>{data.fields.skills}</h2>
                 <p>{data.fields.about}</p>
+                {/* <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="nicholas-santiago-28b405137" data-version="v1">
+                  <a class="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/nicholas-santiago-28b405137?trk=profile-badge">Nicholas Santiago</a>
+                </div> */}
                 <Button onClick={downloadResume} className="col-md-4" variant="outline-info">Download Resume</Button>
               </section>
             </Col>
@@ -81,9 +87,9 @@ const Home = () => {
             </Col>
           </Row>
         </Container>
-        <Container fluid className="project-container p-5">
-          <Row>
-            <h1 className="project-header">Projects</h1>
+        <Container fluid className="project-container p-3">
+          <h1 className="project-header">Projects</h1>
+          <Row className="custom-mobile">
             <Col>
               <Card bg="secondary" text="light" style={{height: '100%'}}>
                 <Card.Img variant='top' src={data.fields.media[9].thumbnails.full.url} alt="Chepe Demo Landing Page"/>
@@ -92,23 +98,31 @@ const Home = () => {
                   (<Placeholder as={Card.Title} bg="primary" animation="glow">
                     <Placeholder xs={6} /></Placeholder>) : 
                     (<Card.Title>Chepe Demo and Trash Haul</Card.Title>)}
-                  <Card.Text>A web application for a local business in Los Angeles.</Card.Text>
+                  <Card.Text>{data.fields.aboutChepe}</Card.Text>
                   <Button onClick={()=> handleClick('https://www.chepedemo.com')} variant="dark" className="col-md-5">Click to View</Button>
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
+            <Col className='custom-mobile-margin'>
               <Card bg="success" text="light" style={{height: '100%'}}>
               <Card.Img variant='top' src={data.fields.media[10].thumbnails.full.url} alt="Quote Dictionary Login" />
               <Card.Body>
                 <Card.Title>Quote Proto(Client Management)</Card.Title>
-                <Card.Text>This web application manages client info. Available only to administrators.</Card.Text>
-                <Button onClick={()=> handleClick('https://quote-proto-63aa678465cd.herokuapp.com/')}variant="info" className="col-md-5">Click to View</Button>
+                <Card.Text>{data.fields.aboutQuote}</Card.Text>
+                <Button onClick={()=> handleClick('https://quote-proto-63aa678465cd.herokuapp.com/')}variant="primary" className="col-md-5">Click to View</Button>
               </Card.Body>
               </Card>
             </Col>
           </Row>
         </Container>
+        {/* <Container fluid> */}
+          <Alert variant="warning" className="text-center">To be continued... If anyone has any cool ideas please add a comment{' '}
+            <Alert.Link href="https://www.linkedin.com/in/nicholas-santiago-28b405137/">
+              <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="nicholas-santiago-28b405137" data-version="v1">
+                <a class="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/nicholas-santiago-28b405137?trk=profile-badge">Nicholas Santiago</a>
+              </div>
+            </Alert.Link></Alert>    
+        {/* </Container> */}
       </Stack>
       )}
     </>
