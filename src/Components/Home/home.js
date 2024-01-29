@@ -51,7 +51,6 @@ const Home = () => {
       const recordsData = responseData.records
       setLoading(true)
       setData(recordsData[0])
-      console.log(recordsData[0])
     } catch(error) {
       console.error(error)
       setError(`An error has occured while fetching data: ${error}`)
@@ -87,9 +86,12 @@ const Home = () => {
             <h1 className="project-header">Projects</h1>
             <Col>
               <Card bg="secondary" text="light" style={{height: '100%'}}>
-                <Card.Img variant='top' src={data.fields.media[9].thumbnails.full.url} />
+                <Card.Img variant='top' src={data.fields.media[9].thumbnails.full.url} alt="Chepe Demo Landing Page"/>
                 <Card.Body>
-                  <Card.Title>Chepe Demo and Trash Haul</Card.Title>
+                  {loading ? 
+                  (<Placeholder as={Card.Title} bg="primary" animation="glow">
+                    <Placeholder xs={6} /></Placeholder>) : 
+                    (<Card.Title>Chepe Demo and Trash Haul</Card.Title>)}
                   <Card.Text>A web application for a local business in Los Angeles.</Card.Text>
                   <Button onClick={()=> handleClick('https://www.chepedemo.com')} variant="dark" className="col-md-5">Click to View</Button>
                 </Card.Body>
@@ -97,7 +99,7 @@ const Home = () => {
             </Col>
             <Col>
               <Card bg="success" text="light" style={{height: '100%'}}>
-              <Card.Img variant='top' src={data.fields.media[10].thumbnails.full.url} />
+              <Card.Img variant='top' src={data.fields.media[10].thumbnails.full.url} alt="Quote Dictionary Login" />
               <Card.Body>
                 <Card.Title>Quote Proto(Client Management)</Card.Title>
                 <Card.Text>This web application manages client info. Available only to administrators.</Card.Text>
