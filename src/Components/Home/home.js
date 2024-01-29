@@ -88,7 +88,7 @@ const Home = () => {
               <Card bg="secondary" text="light" style={{height: '100%'}}>
                 <Card.Img variant='top' src={data.fields.media[9].thumbnails.full.url} alt="Chepe Demo Landing Page"/>
                 <Card.Body>
-                  {loading ? 
+                  {!loading ? 
                   (<Placeholder as={Card.Title} bg="primary" animation="glow">
                     <Placeholder xs={6} /></Placeholder>) : 
                     (<Card.Title>Chepe Demo and Trash Haul</Card.Title>)}
