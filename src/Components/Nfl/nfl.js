@@ -15,6 +15,7 @@ const Nfl = ({nflStatement}) => {
         console.error(`Failed to response this request - Status: ${response.status} Status Text ${response.statusText}`)
       }
       const responseData = await response.json()
+      setLoading(true)
       setNflData(responseData)
     } catch(error) {
       console.error(error)
