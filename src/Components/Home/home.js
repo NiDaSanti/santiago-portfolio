@@ -11,6 +11,7 @@ import {
   Placeholder, 
   Alert
 } from 'react-bootstrap/'
+import Nfl from '../Nfl/nfl.js'
 import resumeFile from '../../resources/santiago-nicholas-technical.pdf'
 import './home.css'
 
@@ -115,13 +116,19 @@ const Home = () => {
             </Col>
           </Row>
         </Container>
+        <Container fluid className="bg-dark text-white p-2">
+          <Nfl 
+            nflStatement={data.fields.nflStatement}  
+          />
+        </Container>
         {/* <Container fluid> */}
           <Alert variant="warning" className="text-center">To be continued... If anyone has any cool ideas please add a comment{' '}
             <Alert.Link href="https://www.linkedin.com/in/nicholas-santiago-28b405137/">
-              <div class="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="nicholas-santiago-28b405137" data-version="v1">
-                <a class="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/nicholas-santiago-28b405137?trk=profile-badge">Nicholas Santiago</a>
+              <div className="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="nicholas-santiago-28b405137" data-version="v1">
+                <a className="badge-base__link LI-simple-link" href="https://www.linkedin.com/in/nicholas-santiago-28b405137?trk=profile-badge">Nicholas Santiago</a>
               </div>
-            </Alert.Link></Alert>    
+            </Alert.Link>
+          </Alert>    
         {/* </Container> */}
       </Stack>
       )}
