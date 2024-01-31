@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import {Container, Row, Col, Card} from 'react-bootstrap/'
+import {Container, Row, Col, Card, Button, Alert} from 'react-bootstrap/'
+import './nfl.css'
 
 const Nfl = ({nflStatement}) => {
   const [nflData, setNflData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [selectedTeam, setSelectedTeam] = useState('')
   const NFLURL = process.env.REACT_APP_SPORTSDATAIO_KEY
 
   const fetchAnUrl = async (url) => {
@@ -17,12 +19,23 @@ const Nfl = ({nflStatement}) => {
       const responseData = await response.json()
       setLoading(true)
       setNflData(responseData)
+      return responseData
     } catch(error) {
       console.error(error)
+      setLoading(false)
     }
   }
+
+  const handleTeamStatsAndInfoClick = async (team) => {
+    setSelectedTeam(team.Key)
+    const seasonTeamStat = await fetchAnUrl(`https://api.sportsdata.io/v3/nfl/scores/json/Players/${selectedTeam}?key=${NFLURL}`)
+ 
+  }
   useEffect(() => {
-    fetchAnUrl(`https://api.sportsdata.io/v3/nfl/scores/json/TeamsBasic?key=${NFLURL}`)
+    const fetchTeamInfo = async () => {
+      fetchAnUrl(`https://api.sportsdata.io/v3/nfl/scores/json/TeamsBasic?key=${NFLURL}`)
+    }
+    fetchTeamInfo()
   }, [])
   return(
     <>
@@ -30,19 +43,24 @@ const Nfl = ({nflStatement}) => {
       <>
         <h1>Hobbies.</h1>
         <p>{nflStatement}</p>
-        <Row xs={2} md={4} lg={6}>
-          {nflData.map(svg => (
-            <Col key={svg.Key}>
+        <Alert variant="info"><strong>This work in progress. The buttons are not functional yet. Coming soon.</strong></Alert>
+        <Row xs={1} md={3} lg={4}>
+          {nflData.map((svg, index) => (
+            <Col key={index}>
               <Card border="dark" style={{background: '#' + svg.PrimaryColor}}>
                 <Container fluid>
-                  <Row className="p-2">
+                  <Row className="custom-mobile p-2">
                     <Col>
-                      <img src={svg.WikipediaLogoURL} alt={`${svg.City} ${svg.Name} Logo`} width="100" height="100" />
+                      <img className="text-center" src={svg.WikipediaLogoURL} alt={`${svg.City} ${svg.Name} Logo`} width="100" height="100" />
+                      <Card style={{background: '#ffffff'}}>
+                        <img src={svg.WikipediaWordMarkURL} alt='logo' width="170" height="auto"/>
+                      </Card>
                     </Col>
                     <Col className="text-white">
-                      <div><i>{svg.FullName}</i></div>
+                      <Card.Title style={{color: `#${svg.SecondaryColor}`}}><i>{svg.FullName}</i></Card.Title>
                       <div>{svg.Conference} {svg.Division}</div>
                       <div>{svg.HeadCoach}</div>
+                      <Button /*onClick={() => handleTeamStatsAndInfoClick(svg.Key)}*/ style={{background: `#${svg.SecondaryColor}`, color: `#${svg.PrimaryColor}`}}>{!loading ? 'Loading...' : 'TeamInfo'}</Button>
                     </Col>
                   </Row>
                 </Container>
@@ -57,3 +75,5 @@ const Nfl = ({nflStatement}) => {
 }
 
 export default Nfl
+
+
