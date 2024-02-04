@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Container, Row, Col, Card, Button, Alert} from 'react-bootstrap/'
+import {Accordion, Container, Row, Col, Card, Button, Alert} from 'react-bootstrap/'
 import './nfl.css'
 
 const Nfl = ({nflStatement}) => {
@@ -41,38 +41,46 @@ const Nfl = ({nflStatement}) => {
     <>
     {!loading ? ('Loading Data...') : (
       <>
-        <h1>Hobbies.</h1>
+        <h1 className="text-center">Hobbies.</h1>
         <p>{nflStatement}</p>
         <Alert variant="info"><strong>This work in progress. The buttons are not functional yet. Coming soon.</strong></Alert>
-        <Row xs={1} md={3} lg={4}>
-          {nflData.map((svg, index) => (
-            <Col key={index}>
-              <Card border="dark" style={{background: '#' + svg.PrimaryColor}}>
-                <Container fluid>
-                  <Row className="custom-mobile p-2">
-                    <Col>
-                      <img className="text-center" src={svg.WikipediaLogoURL} alt={`${svg.City} ${svg.Name} Logo`} width="100" height="100" />
-                      <Card style={{background: '#ffffff'}}>
-                        <img src={svg.WikipediaWordMarkURL} alt='logo' width="170" height="auto"/>
-                      </Card>
-                    </Col>
-                    <Col className="text-white">
-                      <Card.Title style={{color: `#${svg.SecondaryColor}`}}><i>{svg.FullName}</i></Card.Title>
-                      <div>{svg.Conference} {svg.Division}</div>
-                      <div>{svg.HeadCoach}</div>
-                      <Button /*onClick={() => handleTeamStatsAndInfoClick(svg.Key)}*/ style={{background: `#${svg.SecondaryColor}`, color: `#${svg.PrimaryColor}`}}>{!loading ? 'Loading...' : 'TeamInfo'}</Button>
-                    </Col>
-                  </Row>
-                </Container>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <Accordion>
+          <Accordion.Item eventKey="0">
+            <Accordion.Header className="bg-info"><strong>NFL Teams</strong></Accordion.Header>
+            <Accordion.Body className="bg-dark">
+              <Row xs={1} md={3} lg={4}>
+                {nflData.map((svg, index) => (
+                  <Col key={index}>
+                    <Card border="dark" style={{background: '#' + svg.PrimaryColor}}>
+                      <Container fluid>
+                        <Row className="custom-mobile p-2">
+                          <Col>
+                            <img className="text-center" src={svg.WikipediaLogoURL} alt={`${svg.City} ${svg.Name} Logo`} width="100" height="100" />
+                            {/* <Card style={{background: '#ffffff'}}>
+                              <img src={svg.WikipediaWordMarkURL} alt='logo' width="170" height="auto"/>
+                            </Card> */}
+                          </Col>
+                          <Col className="text-white">
+                            <Card.Title style={{color: `#${svg.SecondaryColor}`}}><i>{svg.FullName}</i></Card.Title>
+                            <div>{svg.Conference} {svg.Division}</div>
+                            <div>{svg.HeadCoach}</div>
+                            <Button /*onClick={() => handleTeamStatsAndInfoClick(svg.Key)}*/ style={{background: `#${svg.SecondaryColor}`, color: `#${svg.PrimaryColor}`}}>{!loading ? 'Loading...' : 'TeamInfo'}</Button>
+                          </Col>
+                        </Row>
+                      </Container>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </>
     )}
     </>
   )
 }
+
 
 export default Nfl
 
