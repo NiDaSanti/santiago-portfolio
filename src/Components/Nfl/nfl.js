@@ -1,61 +1,89 @@
 import React, {useState, useEffect} from 'react'
-import {Accordion, Container, Row, Col, Card, Button, Alert} from 'react-bootstrap/'
+import {
+  Accordion, 
+  Container, 
+  Row, 
+  Col, 
+  Card, 
+  Button, 
+  Alert,
+  InputGroup,
+  Form,
+  ListGroup
+} from 'react-bootstrap/'
 import './nfl.css'
 
 const Nfl = ({nflStatement}) => {
   const [nflData, setNflData] = useState([])
+  const [teamData, setTeamData] = useState([])
   const [loading, setLoading] = useState(false)
-  const [selectedTeam, setSelectedTeam] = useState('')
+  const [seasonYear, setSeasonYear] = useState('')
   const NFLURL = process.env.REACT_APP_SPORTSDATAIO_KEY
 
-  const fetchAnUrl = async (url) => {
+  const fetchAnUrl = async (urls) => {
     try{
-      const response = await fetch(url, {
-        method: 'GET'
-      })
-      if(!response.ok) {
-        console.error(`Failed to response this request - Status: ${response.status} Status Text ${response.statusText}`)
+      let data = []
+      for(const url of urls) {
+        const response = await fetch(url)
+        const jsonData = await response.json()
+        data.push(jsonData)
       }
-      const responseData = await response.json()
-      setLoading(true)
-      setNflData(responseData)
-      return responseData
+      return data
     } catch(error) {
-      console.error(error)
+      console.error(`Failed to fetch data: ${error}`)
       setLoading(false)
     }
   }
-
-  const handleTeamStatsAndInfoClick = async (team) => {
-    setSelectedTeam(team.Key)
-    const seasonTeamStat = await fetchAnUrl(`https://api.sportsdata.io/v3/nfl/scores/json/Players/${selectedTeam}?key=${NFLURL}`)
- 
+  const handleInput = (e) => {
+    const {value} = e.target
+    setSeasonYear(value)
   }
-  useEffect(() => {
-    const fetchTeamInfo = async () => {
-      fetchAnUrl(`https://api.sportsdata.io/v3/nfl/scores/json/TeamsBasic?key=${NFLURL}`)
-    }
-    fetchTeamInfo()
-  }, [])
+  const handleSeasonSubmit = (e) => {
+    const urls = [`https://api.sportsdata.io/v3/nfl/scores/json/Byes/${seasonYear}?key=${NFLURL}`, `https://api.sportsdata.io/v3/nfl/scores/json/Teams/${seasonYear}?key=${NFLURL}`]
+    e.preventDefault()
+    fetchAnUrl(urls) 
+      .then(data => {
+        setLoading(true)
+        setNflData(data[0])
+        setTeamData(data[1])
+        console.log('Data: ', data[0])
+        console.log('Data: ', data[1])
+      })
+  }
+
   return(
     <>
-    {!loading ? ('Loading Data...') : (
+      <h1 className="text-center">Hobbies.</h1>
+      <p>{nflStatement}</p>
+      <Alert variant="danger"><i>In the input, you must enter the year and either "PRE, REG, POST". For example for 2023 Season you must enter 2023REG.</i></Alert>
+      <Form onSubmit={handleSeasonSubmit}>
+        <InputGroup className="mb-3">
+          <Form.Control
+            placeholder="Enter a year to view bye weeks"
+            aria-label="Enter a year to view bye weeks"
+            onChange={handleInput}
+            aria-describedby=''
+          />
+          <Button variant="secondary" id="season-year" type="submit">Click</Button>
+        </InputGroup>
+      </Form>
+      {!loading ? (
+        <Alert variant="success">To view what's available, please follow the instructions in red.</Alert>
+      ) : (
       <>
-        <h1 className="text-center">Hobbies.</h1>
-        <p>{nflStatement}</p>
-        <Alert variant="info"><strong>This work in progress. The buttons are not functional yet. Coming soon.</strong></Alert>
+        <Alert variant="info"><strong>This work in progress...</strong></Alert>
         <Accordion>
           <Accordion.Item eventKey="0">
             <Accordion.Header className="bg-info"><strong>NFL Teams</strong></Accordion.Header>
             <Accordion.Body className="bg-dark">
               <Row xs={1} md={3} lg={4}>
-                {nflData.map((svg, index) => (
+                {teamData.map((svg, index) => (
                   <Col key={index}>
                     <Card border="dark" style={{background: '#' + svg.PrimaryColor}}>
                       <Container fluid>
                         <Row className="custom-mobile p-2">
                           <Col>
-                            <img className="text-center" src={svg.WikipediaLogoURL} alt={`${svg.City} ${svg.Name} Logo`} width="100" height="100" />
+                            <img className="text-center" src={svg.WikipediaLogoUrl} alt={`${svg.City} ${svg.Name} Logo`} width="100" height="100" />
                             {/* <Card style={{background: '#ffffff'}}>
                               <img src={svg.WikipediaWordMarkURL} alt='logo' width="170" height="auto"/>
                             </Card> */}
@@ -64,7 +92,7 @@ const Nfl = ({nflStatement}) => {
                             <Card.Title style={{color: `#${svg.SecondaryColor}`}}><i>{svg.FullName}</i></Card.Title>
                             <div>{svg.Conference} {svg.Division}</div>
                             <div>{svg.HeadCoach}</div>
-                            <Button /*onClick={() => handleTeamStatsAndInfoClick(svg.Key)}*/ style={{background: `#${svg.SecondaryColor}`, color: `#${svg.PrimaryColor}`}}>{!loading ? 'Loading...' : 'TeamInfo'}</Button>
+                            {/* <Button onClick={() => handleTeamStatsAndInfoClick(svg.Key)} style={{background: `#${svg.SecondaryColor}`, color: `#${svg.PrimaryColor}`}}>{!loading ? 'Loading...' : 'TeamInfo'}</Button> */}
                           </Col>
                         </Row>
                       </Container>
@@ -75,13 +103,34 @@ const Nfl = ({nflStatement}) => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
+        <Accordion>
+          <Accordion.Item eventKey="0">
+            <Accordion.Header><strong>NFL bye weeks by season.</strong></Accordion.Header>
+            <Accordion.Body>
+              <Container fluid>
+                <Row>
+                  {nflData.map((team, index) => (
+                    <Card key={index} style={{width: '18rem'}}>
+                      <Col>
+                        <Card.Body>
+                          <Card.Title>{team.Team}</Card.Title>
+                          <Card.Title>{team.Season}</Card.Title>
+                          <Card.Title>{team.Week}</Card.Title>
+                        </Card.Body>
+                      </Col>
+                      </Card>
+                    ))}
+                </Row>
+              </Container>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </>
     )}
     </>
   )
 }
-
-
 export default Nfl
+
 
 
