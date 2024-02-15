@@ -46,10 +46,9 @@ const Nfl = ({nflStatement}) => {
         setLoading(true)
         setNflData(data[0])
         setTeamData(data[1])
-        console.log('Data: ', data[0])
-        console.log('Data: ', data[1])
       })
   }
+  const disableButton = seasonYear === "" ? true : false
 
   return(
     <>
@@ -64,7 +63,7 @@ const Nfl = ({nflStatement}) => {
             onChange={handleInput}
             aria-describedby=''
           />
-          <Button variant="secondary" id="season-year" type="submit">Click</Button>
+          <Button disabled={disableButton} variant="secondary" id="season-year" type="submit">Click</Button>
         </InputGroup>
       </Form>
       {!loading ? (
