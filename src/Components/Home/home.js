@@ -22,7 +22,7 @@ const Home = () => {
   const URL = process.env.REACT_APP_AIRTABLE_URL
   const BASEID = process.env.REACT_APP_BASEID
   const TABLENAME = process.env.REACT_APP_TABLENAME
-  const KEY = process.env.REACT_APP_APIKEY
+  const KEY = process.env.REACT_APP_AIRTABLE_ACCESS_TOKEN
 
   const downloadResume = () => {
     const resumePath = resumeFile
