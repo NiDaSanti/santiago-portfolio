@@ -12,7 +12,7 @@ import {
   Alert
 } from 'react-bootstrap/'
 import Nfl from '../Nfl/nfl.js'
-import resumeFile from '../../resources/santiago-nicholas-technical.pdf'
+import resumeFile from '../../resources/tech-resume-santiago.pdf'
 import './home.css'
 
 const Home = () => {
@@ -28,7 +28,7 @@ const Home = () => {
     const resumePath = resumeFile
     const link = document.createElement('a')
     link.href = resumePath
-    link.download = 'santiago-nicholas-technical.pdf'
+    link.download = 'tech-resume-santiago.pdf'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -116,11 +116,11 @@ const Home = () => {
             </Col>
           </Row>
         </Container>
-        <Container fluid className="bg-dark text-white p-2">
+        {/*<Container fluid className="bg-dark text-white p-2">
           <Nfl 
             nflStatement={data.fields.nflStatement}  
           />
-        </Container>
+        </Container>*/}
         {/* <Container fluid> */}
           <Alert variant="warning" className="text-center">To be continued... If anyone has any cool ideas please add a comment{' '}
             <Alert.Link href="https://www.linkedin.com/in/nicholas-santiago-28b405137/">
