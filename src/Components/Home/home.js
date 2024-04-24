@@ -11,7 +11,6 @@ import {
   Placeholder, 
   Alert
 } from 'react-bootstrap/'
-import Nfl from '../Nfl/nfl.js'
 import resumeFile from '../../resources/tech-resume-santiago.pdf'
 import './home.css'
 
@@ -126,12 +125,6 @@ const Home = () => {
             </Col>
           </Row>
         </Container>
-        {/*<Container fluid className="bg-dark text-white p-2">
-          <Nfl 
-            nflStatement={data.fields.nflStatement}  
-          />
-        </Container>*/}
-        {/* <Container fluid> */}
           <Alert variant="warning" className="text-center">Click on the name to be redirected to my Linked In... {" "}
             <Alert.Link href="https://www.linkedin.com/in/nicholas-santiago-28b405137/">
               <div className="badge-base LI-profile-badge" data-locale="en_US" data-size="large" data-theme="dark" data-type="HORIZONTAL" data-vanity="nicholas-santiago-28b405137" data-version="v1">
